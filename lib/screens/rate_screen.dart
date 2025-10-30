@@ -83,8 +83,8 @@ class _RateScreenState extends State<RateScreen> {
                 initialRating: rating, // Valor inicial
                 minRating: 0, // Mínimo posible
                 direction: Axis.horizontal,
-                allowHalfRating: true, // Permite medias estrellas
-                glow: false,
+                allowHalfRating: false, // Permite medias estrellas
+                glow: true,
                 itemCount: itemCount,
                 itemSize: itemSize,
                 unratedColor: Colors.grey.shade300,
@@ -122,22 +122,20 @@ class _RateScreenState extends State<RateScreen> {
                   // Espera un instante y luego dispara la animación correspondiente
                   Future.delayed(const Duration(milliseconds: 1), () {
                     // Si la calificación es alta (3 estrellas o más)
-                    if (rating == 4 || rating == 5) {
-                      successInput?.fire(); // Activa animación de éxito
+                    if (rating < 3) {
+                      failInput?.fire(); // Activa animación de éxito
                       numLookInput?.value = 0;
                     } else if (rating == 3) {
                       numLookInput?.value = 50.0;
-                    } else if (rating == 1 || rating == 2) {
-                      failInput?.fire(); // Activa animación de fallo
-                      numLookInput?.value = 100;
                     } else {
-                      numLookInput?.value = 0;
+                      successInput?.fire();
+                      numLookInput?.value = 100;
                     }
                   });
                 },
               ),
               const SizedBox(height: 20),
-              // Botón "Rate Now" (no ejecuta lógica actualmente)
+              // Botón Rate Now (no ejecuta lógica actualmente)
               const RateButton(),
               const SizedBox(height: 20),
               // Botón de NO Thanks
